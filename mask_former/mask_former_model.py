@@ -214,7 +214,10 @@ class MaskFormer(nn.Module):
                 r = self.semantic_inference(mask_cls_result, mask_pred_result)
                 if not self.sem_seg_postprocess_before_inference:
                     r = sem_seg_postprocess(r, image_size, height, width)
-                processed_results.append({"sem_seg": r})
+                    mask_pred_result = sem_seg_postprocess(
+                        mask_pred_result, image_size, height, width
+                    )
+                processed_results.append({"sem_seg": r,"mask_proposal":mask_pred_result})
 
                 # panoptic segmentation inference
                 if self.panoptic_on:
